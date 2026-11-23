@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_0" name="Client (titulaire CCP)" processRef="Process_0" />
+    <bpmn:participant id="Participant_1" name="Algérie Poste" processRef="Process_1" />
+    <bpmn:messageFlow id="m1" name="Dossier papier" sourceRef="a_depot" targetRef="b_ms2" />
+    <bpmn:messageFlow id="m2" name="Code d'accès E-CCP" sourceRef="b_code" targetRef="a_rcode" />
+    <bpmn:messageFlow id="m3" name="Identifiants de connexion" sourceRef="a_login" targetRef="b_ms" />
+    <bpmn:messageFlow id="m4" name="Demande validée" sourceRef="a_conf" targetRef="b_c_conf" />
+    <bpmn:messageFlow id="m5" name="Notification de refus" sourceRef="b_notif" targetRef="a_c_refus" />
+    <bpmn:messageFlow id="m6" name="SMS de disponibilité" sourceRef="b_sms" targetRef="a_c_sms" />
+    <bpmn:messageFlow id="m7" name="Pièce d'identité" sourceRef="a_pres" targetRef="b_vid" />
+    <bpmn:messageFlow id="m8" name="Carte EDAHABIA + code PIN" sourceRef="b_rem" targetRef="a_rec" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_0" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_0">
+      <bpmn:lane id="Lane_0_0" name="Client">
+        <bpmn:flowNodeRef>a_start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_acces</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_elig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_end_elig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_cred</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_form</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_depot</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_rcode</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_m1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_login</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_choix</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_conf</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_evt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_c_refus</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_end_refus</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_c_sms</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_depl</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_pres</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_ret</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_rec</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a_end_ok</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="a_start" name="Souhait d'obtenir une carte EDAHABIA"><bpmn:outgoing>s1</bpmn:outgoing></bpmn:startEvent>
+    <bpmn:userTask id="a_acces" name="Accéder à E-CCP ou à Mobile ECCP"><bpmn:incoming>s1</bpmn:incoming><bpmn:outgoing>s2</bpmn:outgoing></bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_elig" name="Conditions d'éligibilité remplies ?"><bpmn:incoming>s2</bpmn:incoming><bpmn:outgoing>s3</bpmn:outgoing><bpmn:outgoing>s4</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:endEvent id="a_end_elig" name="Demande impossible"><bpmn:incoming>s3</bpmn:incoming></bpmn:endEvent>
+    <bpmn:exclusiveGateway id="g_cred" name="Identifiants E-CCP disponibles ?"><bpmn:incoming>s4</bpmn:incoming><bpmn:outgoing>s5</bpmn:outgoing><bpmn:outgoing>s9</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:manualTask id="a_form" name="Télécharger, imprimer et remplir le formulaire de code E-CCP"><bpmn:incoming>s5</bpmn:incoming><bpmn:outgoing>s6</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:manualTask id="a_depot" name="Déposer le formulaire et la copie de la pièce d'identité au bureau"><bpmn:incoming>s6</bpmn:incoming><bpmn:outgoing>s7</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:receiveTask id="a_rcode" name="Recevoir le code d'accès E-CCP"><bpmn:incoming>s7</bpmn:incoming><bpmn:outgoing>s8</bpmn:outgoing></bpmn:receiveTask>
+    <bpmn:exclusiveGateway id="g_m1"><bpmn:incoming>s8</bpmn:incoming><bpmn:incoming>s9</bpmn:incoming><bpmn:outgoing>s10</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:userTask id="a_login" name="Saisir les identifiants de connexion E-CCP"><bpmn:incoming>s10</bpmn:incoming><bpmn:outgoing>s11</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="a_choix" name="Choisir l'onglet EDAHABIA : ordinaire ou premium"><bpmn:incoming>s11</bpmn:incoming><bpmn:outgoing>s12</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="a_conf" name="Renseigner les informations et confirmer la demande"><bpmn:incoming>s12</bpmn:incoming><bpmn:outgoing>s13</bpmn:outgoing></bpmn:userTask>
+    <bpmn:eventBasedGateway id="g_evt"><bpmn:incoming>s13</bpmn:incoming><bpmn:outgoing>s14</bpmn:outgoing><bpmn:outgoing>s15</bpmn:outgoing></bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="a_c_refus" name="Notification de refus reçue"><bpmn:incoming>s15</bpmn:incoming><bpmn:outgoing>s16</bpmn:outgoing><bpmn:messageEventDefinition id="a_c_refus_md" /></bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="a_end_refus" name="Demande refusée"><bpmn:incoming>s16</bpmn:incoming></bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="a_c_sms" name="SMS de disponibilité reçu"><bpmn:incoming>s14</bpmn:incoming><bpmn:outgoing>s17</bpmn:outgoing><bpmn:messageEventDefinition id="a_c_sms_md" /></bpmn:intermediateCatchEvent>
+    <bpmn:manualTask id="a_depl" name="Se déplacer au bureau de poste de rattachement"><bpmn:incoming>s17</bpmn:incoming><bpmn:outgoing>s18</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:manualTask id="a_pres" name="Présenter la pièce d'identité au guichet"><bpmn:incoming>s18</bpmn:incoming><bpmn:outgoing>s19</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:manualTask id="a_ret" name="Remplir le formulaire de retrait"><bpmn:incoming>s19</bpmn:incoming><bpmn:outgoing>s20</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:manualTask id="a_rec" name="Récupérer la carte et signer l'accusé de réception"><bpmn:incoming>s20</bpmn:incoming><bpmn:outgoing>s21</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:endEvent id="a_end_ok" name="Carte EDAHABIA remise et prête à l'emploi"><bpmn:incoming>s21</bpmn:incoming></bpmn:endEvent>
+    <bpmn:sequenceFlow id="s1" sourceRef="a_start" targetRef="a_acces" />
+    <bpmn:sequenceFlow id="s2" sourceRef="a_acces" targetRef="g_elig" />
+    <bpmn:sequenceFlow id="s3" name="Non" sourceRef="g_elig" targetRef="a_end_elig" />
+    <bpmn:sequenceFlow id="s4" name="Oui" sourceRef="g_elig" targetRef="g_cred" />
+    <bpmn:sequenceFlow id="s5" name="Non" sourceRef="g_cred" targetRef="a_form" />
+    <bpmn:sequenceFlow id="s6" sourceRef="a_form" targetRef="a_depot" />
+    <bpmn:sequenceFlow id="s7" sourceRef="a_depot" targetRef="a_rcode" />
+    <bpmn:sequenceFlow id="s8" sourceRef="a_rcode" targetRef="g_m1" />
+    <bpmn:sequenceFlow id="s9" name="Oui" sourceRef="g_cred" targetRef="g_m1" />
+    <bpmn:sequenceFlow id="s10" sourceRef="g_m1" targetRef="a_login" />
+    <bpmn:sequenceFlow id="s11" sourceRef="a_login" targetRef="a_choix" />
+    <bpmn:sequenceFlow id="s12" sourceRef="a_choix" targetRef="a_conf" />
+    <bpmn:sequenceFlow id="s13" sourceRef="a_conf" targetRef="g_evt" />
+    <bpmn:sequenceFlow id="s14" sourceRef="g_evt" targetRef="a_c_sms" />
+    <bpmn:sequenceFlow id="s15" sourceRef="g_evt" targetRef="a_c_refus" />
+    <bpmn:sequenceFlow id="s16" sourceRef="a_c_refus" targetRef="a_end_refus" />
+    <bpmn:sequenceFlow id="s17" sourceRef="a_c_sms" targetRef="a_depl" />
+    <bpmn:sequenceFlow id="s18" sourceRef="a_depl" targetRef="a_pres" />
+    <bpmn:sequenceFlow id="s19" sourceRef="a_pres" targetRef="a_ret" />
+    <bpmn:sequenceFlow id="s20" sourceRef="a_ret" targetRef="a_rec" />
+    <bpmn:sequenceFlow id="s21" sourceRef="a_rec" targetRef="a_end_ok" />
+  </bpmn:process>
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_1_0" name="Plateforme numérique E-CCP">
+        <bpmn:flowNodeRef>b_ms</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_auth</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_c_conf</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_enreg</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1_1" name="Service de traitement des demandes">
+        <bpmn:flowNodeRef>b_verif</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_g_ok</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_notif</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_end_rej</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1_2" name="Fabrication et acheminement">
+        <bpmn:flowNodeRef>b_fab</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_ach</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1_3" name="Bureau de poste (guichet)">
+        <bpmn:flowNodeRef>b_ms2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_dos</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_g_dos</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_code</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_end_dos</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_end_code</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_recep</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_sms</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_vid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_rem</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>b_end_ok</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="b_ms2" name="Dossier de demande de code E-CCP reçu"><bpmn:outgoing>t1</bpmn:outgoing><bpmn:messageEventDefinition id="b_ms2_md" /></bpmn:startEvent>
+    <bpmn:manualTask id="b_dos" name="Recevoir et vérifier le dossier papier"><bpmn:incoming>t1</bpmn:incoming><bpmn:outgoing>t2</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:exclusiveGateway id="b_g_dos" name="Dossier conforme ?"><bpmn:incoming>t2</bpmn:incoming><bpmn:outgoing>t3</bpmn:outgoing><bpmn:outgoing>t4</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:manualTask id="b_code" name="Attribuer et remettre le code confidentiel E-CCP"><bpmn:incoming>t3</bpmn:incoming><bpmn:outgoing>t5</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:endEvent id="b_end_dos" name="Dossier rejeté"><bpmn:incoming>t4</bpmn:incoming></bpmn:endEvent>
+    <bpmn:endEvent id="b_end_code" name="Code E-CCP communiqué"><bpmn:incoming>t5</bpmn:incoming></bpmn:endEvent>
+    <bpmn:startEvent id="b_ms" name="Demande de connexion reçue"><bpmn:outgoing>u1</bpmn:outgoing><bpmn:messageEventDefinition id="b_ms_md" /></bpmn:startEvent>
+    <bpmn:serviceTask id="b_auth" name="Authentifier le client CCP"><bpmn:incoming>u1</bpmn:incoming><bpmn:outgoing>u2</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="b_c_conf" name="Demande confirmée reçue"><bpmn:incoming>u2</bpmn:incoming><bpmn:outgoing>u3</bpmn:outgoing><bpmn:messageEventDefinition id="b_c_conf_md" /></bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="b_enreg" name="Enregistrer la commande EDAHABIA"><bpmn:incoming>u3</bpmn:incoming><bpmn:outgoing>u4</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:manualTask id="b_verif" name="Prendre en charge et vérifier les informations"><bpmn:incoming>u4</bpmn:incoming><bpmn:outgoing>u5</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:exclusiveGateway id="b_g_ok" name="Informations valides ?"><bpmn:incoming>u5</bpmn:incoming><bpmn:outgoing>u6</bpmn:outgoing><bpmn:outgoing>u8</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:sendTask id="b_notif" name="Notifier le refus au client"><bpmn:incoming>u6</bpmn:incoming><bpmn:outgoing>u7</bpmn:outgoing></bpmn:sendTask>
+    <bpmn:endEvent id="b_end_rej" name="Demande rejetée"><bpmn:incoming>u7</bpmn:incoming></bpmn:endEvent>
+    <bpmn:manualTask id="b_fab" name="Personnaliser et fabriquer la carte EDAHABIA"><bpmn:incoming>u8</bpmn:incoming><bpmn:outgoing>u9</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:manualTask id="b_ach" name="Acheminer la carte vers le bureau de poste"><bpmn:incoming>u9</bpmn:incoming><bpmn:outgoing>u10</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:manualTask id="b_recep" name="Réceptionner et enregistrer la carte au bureau"><bpmn:incoming>u10</bpmn:incoming><bpmn:outgoing>u11</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:sendTask id="b_sms" name="Envoyer le SMS de disponibilité"><bpmn:incoming>u11</bpmn:incoming><bpmn:outgoing>u12</bpmn:outgoing></bpmn:sendTask>
+    <bpmn:manualTask id="b_vid" name="Vérifier l'identité du titulaire CCP"><bpmn:incoming>u12</bpmn:incoming><bpmn:outgoing>u13</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:manualTask id="b_rem" name="Remettre la carte et le code PIN, faire signer"><bpmn:incoming>u13</bpmn:incoming><bpmn:outgoing>u14</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:endEvent id="b_end_ok" name="Carte remise au client"><bpmn:incoming>u14</bpmn:incoming></bpmn:endEvent>
+    <bpmn:sequenceFlow id="t1" sourceRef="b_ms2" targetRef="b_dos" />
+    <bpmn:sequenceFlow id="t2" sourceRef="b_dos" targetRef="b_g_dos" />
+    <bpmn:sequenceFlow id="t3" name="Oui" sourceRef="b_g_dos" targetRef="b_code" />
+    <bpmn:sequenceFlow id="t4" name="Non" sourceRef="b_g_dos" targetRef="b_end_dos" />
+    <bpmn:sequenceFlow id="t5" sourceRef="b_code" targetRef="b_end_code" />
+    <bpmn:sequenceFlow id="u1" sourceRef="b_ms" targetRef="b_auth" />
+    <bpmn:sequenceFlow id="u2" sourceRef="b_auth" targetRef="b_c_conf" />
+    <bpmn:sequenceFlow id="u3" sourceRef="b_c_conf" targetRef="b_enreg" />
+    <bpmn:sequenceFlow id="u4" sourceRef="b_enreg" targetRef="b_verif" />
+    <bpmn:sequenceFlow id="u5" sourceRef="b_verif" targetRef="b_g_ok" />
+    <bpmn:sequenceFlow id="u6" name="Non" sourceRef="b_g_ok" targetRef="b_notif" />
+    <bpmn:sequenceFlow id="u7" sourceRef="b_notif" targetRef="b_end_rej" />
+    <bpmn:sequenceFlow id="u8" name="Oui" sourceRef="b_g_ok" targetRef="b_fab" />
+    <bpmn:sequenceFlow id="u9" sourceRef="b_fab" targetRef="b_ach" />
+    <bpmn:sequenceFlow id="u10" sourceRef="b_ach" targetRef="b_recep" />
+    <bpmn:sequenceFlow id="u11" sourceRef="b_recep" targetRef="b_sms" />
+    <bpmn:sequenceFlow id="u12" sourceRef="b_sms" targetRef="b_vid" />
+    <bpmn:sequenceFlow id="u13" sourceRef="b_vid" targetRef="b_rem" />
+    <bpmn:sequenceFlow id="u14" sourceRef="b_rem" targetRef="b_end_ok" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1"><bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+    <bpmndi:BPMNShape id="Participant_0_di" bpmnElement="Participant_0" isHorizontal="true"><dc:Bounds x="100" y="40" width="3788" height="210" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_0_0_di" bpmnElement="Lane_0_0" isHorizontal="true"><dc:Bounds x="130" y="40" width="3758" height="210" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Participant_1_di" bpmnElement="Participant_1" isHorizontal="true"><dc:Bounds x="100" y="310" width="3788" height="840" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_1_0_di" bpmnElement="Lane_1_0" isHorizontal="true"><dc:Bounds x="130" y="310" width="3758" height="210" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_1_1_di" bpmnElement="Lane_1_1" isHorizontal="true"><dc:Bounds x="130" y="520" width="3758" height="210" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_1_2_di" bpmnElement="Lane_1_2" isHorizontal="true"><dc:Bounds x="130" y="730" width="3758" height="210" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_1_3_di" bpmnElement="Lane_1_3" isHorizontal="true"><dc:Bounds x="130" y="940" width="3758" height="210" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_start_di" bpmnElement="a_start"><dc:Bounds x="192" y="92" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_acces_di" bpmnElement="a_acces"><dc:Bounds x="295" y="70" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="g_elig_di" bpmnElement="g_elig" isMarkerVisible="true"><dc:Bounds x="485" y="85" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_end_elig_di" bpmnElement="a_end_elig"><dc:Bounds x="492" y="182" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="g_cred_di" bpmnElement="g_cred" isMarkerVisible="true"><dc:Bounds x="635" y="85" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_form_di" bpmnElement="a_form"><dc:Bounds x="745" y="160" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_depot_di" bpmnElement="a_depot"><dc:Bounds x="895" y="160" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_rcode_di" bpmnElement="a_rcode"><dc:Bounds x="1345" y="160" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="g_m1_di" bpmnElement="g_m1" isMarkerVisible="true"><dc:Bounds x="1535" y="85" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_login_di" bpmnElement="a_login"><dc:Bounds x="1645" y="70" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_choix_di" bpmnElement="a_choix"><dc:Bounds x="1795" y="70" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_conf_di" bpmnElement="a_conf"><dc:Bounds x="1945" y="70" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="g_evt_di" bpmnElement="g_evt"><dc:Bounds x="2135" y="85" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_c_refus_di" bpmnElement="a_c_refus"><dc:Bounds x="2592" y="182" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_end_refus_di" bpmnElement="a_end_refus"><dc:Bounds x="2742" y="182" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_c_sms_di" bpmnElement="a_c_sms"><dc:Bounds x="3042" y="92" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_depl_di" bpmnElement="a_depl"><dc:Bounds x="3145" y="70" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_pres_di" bpmnElement="a_pres"><dc:Bounds x="3295" y="70" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_ret_di" bpmnElement="a_ret"><dc:Bounds x="3445" y="70" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_rec_di" bpmnElement="a_rec"><dc:Bounds x="3595" y="70" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="a_end_ok_di" bpmnElement="a_end_ok"><dc:Bounds x="3792" y="92" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_ms2_di" bpmnElement="b_ms2"><dc:Bounds x="942" y="992" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_dos_di" bpmnElement="b_dos"><dc:Bounds x="1045" y="970" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_g_dos_di" bpmnElement="b_g_dos" isMarkerVisible="true"><dc:Bounds x="1235" y="985" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_code_di" bpmnElement="b_code"><dc:Bounds x="1345" y="970" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_end_dos_di" bpmnElement="b_end_dos"><dc:Bounds x="1392" y="1082" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_end_code_di" bpmnElement="b_end_code"><dc:Bounds x="1542" y="992" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_ms_di" bpmnElement="b_ms"><dc:Bounds x="1692" y="362" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_auth_di" bpmnElement="b_auth"><dc:Bounds x="1795" y="340" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_c_conf_di" bpmnElement="b_c_conf"><dc:Bounds x="1992" y="362" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_enreg_di" bpmnElement="b_enreg"><dc:Bounds x="2095" y="340" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_verif_di" bpmnElement="b_verif"><dc:Bounds x="2245" y="550" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_g_ok_di" bpmnElement="b_g_ok" isMarkerVisible="true"><dc:Bounds x="2435" y="565" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_notif_di" bpmnElement="b_notif"><dc:Bounds x="2545" y="640" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_end_rej_di" bpmnElement="b_end_rej"><dc:Bounds x="2742" y="662" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_fab_di" bpmnElement="b_fab"><dc:Bounds x="2545" y="760" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_ach_di" bpmnElement="b_ach"><dc:Bounds x="2695" y="760" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_recep_di" bpmnElement="b_recep"><dc:Bounds x="2845" y="970" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_sms_di" bpmnElement="b_sms"><dc:Bounds x="2995" y="970" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_vid_di" bpmnElement="b_vid"><dc:Bounds x="3295" y="970" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_rem_di" bpmnElement="b_rem"><dc:Bounds x="3595" y="970" width="130" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="b_end_ok_di" bpmnElement="b_end_ok"><dc:Bounds x="3792" y="992" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="s1_di" bpmnElement="s1"><di:waypoint x="228" y="110" /><di:waypoint x="295" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s2_di" bpmnElement="s2"><di:waypoint x="425" y="110" /><di:waypoint x="485" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s3_di" bpmnElement="s3"><di:waypoint x="510" y="135" /><di:waypoint x="510" y="182" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s4_di" bpmnElement="s4"><di:waypoint x="535" y="110" /><di:waypoint x="635" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s5_di" bpmnElement="s5"><di:waypoint x="660" y="135" /><di:waypoint x="660" y="200" /><di:waypoint x="745" y="200" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s6_di" bpmnElement="s6"><di:waypoint x="875" y="200" /><di:waypoint x="895" y="200" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s7_di" bpmnElement="s7"><di:waypoint x="1025" y="200" /><di:waypoint x="1345" y="200" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s8_di" bpmnElement="s8"><di:waypoint x="1475" y="200" /><di:waypoint x="1560" y="200" /><di:waypoint x="1560" y="135" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s9_di" bpmnElement="s9"><di:waypoint x="685" y="110" /><di:waypoint x="1535" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s10_di" bpmnElement="s10"><di:waypoint x="1585" y="110" /><di:waypoint x="1645" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s11_di" bpmnElement="s11"><di:waypoint x="1775" y="110" /><di:waypoint x="1795" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s12_di" bpmnElement="s12"><di:waypoint x="1925" y="110" /><di:waypoint x="1945" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s13_di" bpmnElement="s13"><di:waypoint x="2075" y="110" /><di:waypoint x="2135" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s14_di" bpmnElement="s14"><di:waypoint x="2185" y="110" /><di:waypoint x="3042" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s15_di" bpmnElement="s15"><di:waypoint x="2160" y="135" /><di:waypoint x="2160" y="200" /><di:waypoint x="2592" y="200" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s16_di" bpmnElement="s16"><di:waypoint x="2628" y="200" /><di:waypoint x="2742" y="200" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s17_di" bpmnElement="s17"><di:waypoint x="3078" y="110" /><di:waypoint x="3145" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s18_di" bpmnElement="s18"><di:waypoint x="3275" y="110" /><di:waypoint x="3295" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s19_di" bpmnElement="s19"><di:waypoint x="3425" y="110" /><di:waypoint x="3445" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s20_di" bpmnElement="s20"><di:waypoint x="3575" y="110" /><di:waypoint x="3595" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="s21_di" bpmnElement="s21"><di:waypoint x="3725" y="110" /><di:waypoint x="3792" y="110" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="t1_di" bpmnElement="t1"><di:waypoint x="978" y="1010" /><di:waypoint x="1045" y="1010" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="t2_di" bpmnElement="t2"><di:waypoint x="1175" y="1010" /><di:waypoint x="1235" y="1010" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="t3_di" bpmnElement="t3"><di:waypoint x="1285" y="1010" /><di:waypoint x="1345" y="1010" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="t4_di" bpmnElement="t4"><di:waypoint x="1260" y="1035" /><di:waypoint x="1260" y="1100" /><di:waypoint x="1392" y="1100" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="t5_di" bpmnElement="t5"><di:waypoint x="1475" y="1010" /><di:waypoint x="1542" y="1010" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u1_di" bpmnElement="u1"><di:waypoint x="1728" y="380" /><di:waypoint x="1795" y="380" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u2_di" bpmnElement="u2"><di:waypoint x="1925" y="380" /><di:waypoint x="1992" y="380" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u3_di" bpmnElement="u3"><di:waypoint x="2028" y="380" /><di:waypoint x="2095" y="380" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u4_di" bpmnElement="u4"><di:waypoint x="2225" y="380" /><di:waypoint x="2235" y="380" /><di:waypoint x="2235" y="590" /><di:waypoint x="2245" y="590" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u5_di" bpmnElement="u5"><di:waypoint x="2375" y="590" /><di:waypoint x="2435" y="590" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u6_di" bpmnElement="u6"><di:waypoint x="2460" y="615" /><di:waypoint x="2460" y="680" /><di:waypoint x="2545" y="680" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u7_di" bpmnElement="u7"><di:waypoint x="2675" y="680" /><di:waypoint x="2742" y="680" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u8_di" bpmnElement="u8"><di:waypoint x="2485" y="590" /><di:waypoint x="2515" y="590" /><di:waypoint x="2515" y="800" /><di:waypoint x="2545" y="800" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u9_di" bpmnElement="u9"><di:waypoint x="2675" y="800" /><di:waypoint x="2695" y="800" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u10_di" bpmnElement="u10"><di:waypoint x="2825" y="800" /><di:waypoint x="2835" y="800" /><di:waypoint x="2835" y="1010" /><di:waypoint x="2845" y="1010" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u11_di" bpmnElement="u11"><di:waypoint x="2975" y="1010" /><di:waypoint x="2995" y="1010" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u12_di" bpmnElement="u12"><di:waypoint x="3125" y="1010" /><di:waypoint x="3295" y="1010" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u13_di" bpmnElement="u13"><di:waypoint x="3425" y="1010" /><di:waypoint x="3595" y="1010" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="u14_di" bpmnElement="u14"><di:waypoint x="3725" y="1010" /><di:waypoint x="3792" y="1010" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="m1_di" bpmnElement="m1"><di:waypoint x="960" y="240" /><di:waypoint x="960" y="992" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="m2_di" bpmnElement="m2"><di:waypoint x="1410" y="970" /><di:waypoint x="1410" y="240" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="m3_di" bpmnElement="m3"><di:waypoint x="1710" y="150" /><di:waypoint x="1710" y="362" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="m4_di" bpmnElement="m4"><di:waypoint x="2010" y="150" /><di:waypoint x="2010" y="362" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="m5_di" bpmnElement="m5"><di:waypoint x="2610" y="640" /><di:waypoint x="2610" y="218" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="m6_di" bpmnElement="m6"><di:waypoint x="3060" y="970" /><di:waypoint x="3060" y="128" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="m7_di" bpmnElement="m7"><di:waypoint x="3360" y="150" /><di:waypoint x="3360" y="970" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="m8_di" bpmnElement="m8"><di:waypoint x="3660" y="970" /><di:waypoint x="3660" y="150" /></bpmndi:BPMNEdge>
+  </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>
