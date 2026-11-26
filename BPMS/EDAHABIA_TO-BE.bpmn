@@ -718,7 +718,7 @@
         <flowNodeRef>Id_42bf1ad6-2236-4751-b693-05b379948efa</flowNodeRef>
       </lane>
     </laneSet>
-    <serviceTask id="Id_f5a6606e-07f3-4a25-99ec-94feda1a22e0" name="Créer le compte et vérifier l&#39;identité (code OTP par SMS)">
+    <serviceTask id="Id_f5a6606e-07f3-4a25-99ec-94feda1a22e0" name="Créer le compte et vérifier l&#39;identité (code OTP par SMS)" camunda:class="dz.poste.edahabia.delegates.ServiceTaskDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
@@ -744,7 +744,7 @@
         <targetRef>Id_889c523e-b005-4efc-873c-fe1339eae7b3</targetRef>
       </dataOutputAssociation>
     </serviceTask>
-    <serviceTask id="Id_4ce7a2e2-a038-4b58-8c84-07c0fc57ea74" name="Vérifier automatiquement l&#39;éligibilité (CCP actif, mobile, pas de carte, personne physique)">
+    <serviceTask id="Id_4ce7a2e2-a038-4b58-8c84-07c0fc57ea74" name="Vérifier automatiquement l&#39;éligibilité (CCP actif, mobile, pas de carte, personne physique)" camunda:class="dz.poste.edahabia.delegates.EligibiliteDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
@@ -771,7 +771,7 @@
         <targetRef>Property_0fn5z8k</targetRef>
       </dataInputAssociation>
     </serviceTask>
-    <serviceTask id="Id_11ab6774-dc14-46fe-bf04-e9c4c8801535" name="Enregistrer la commande (statut : reçue)">
+    <serviceTask id="Id_11ab6774-dc14-46fe-bf04-e9c4c8801535" name="Enregistrer la commande (statut : reçue)" camunda:class="dz.poste.edahabia.delegates.ServiceTaskDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
@@ -797,7 +797,7 @@
         <targetRef>Id_bff92ed1-b5a0-42c9-b2eb-5bd4a2dc1f91</targetRef>
       </dataOutputAssociation>
     </serviceTask>
-    <serviceTask id="Id_9dd234a2-d70f-4a60-9d0e-6ad0bf3bce0a" name="Lancer la fabrication (statut : en fabrication)">
+    <serviceTask id="Id_9dd234a2-d70f-4a60-9d0e-6ad0bf3bce0a" name="Lancer la fabrication (statut : en fabrication)" camunda:class="dz.poste.edahabia.delegates.ServiceTaskDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
@@ -823,7 +823,7 @@
         <targetRef>Id_bff92ed1-b5a0-42c9-b2eb-5bd4a2dc1f91</targetRef>
       </dataOutputAssociation>
     </serviceTask>
-    <serviceTask id="Id_4c8bce4f-7790-4d01-b35e-9354fe5a3d57" name="Clôturer la demande (statut : remise)">
+    <serviceTask id="Id_4c8bce4f-7790-4d01-b35e-9354fe5a3d57" name="Clôturer la demande (statut : remise)" camunda:class="dz.poste.edahabia.delegates.ServiceTaskDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
@@ -838,7 +838,7 @@
       <incoming>Id_b2df07dd-e799-4132-b2f7-1a69746c7566</incoming>
       <outgoing>Id_37552177-a35c-4bf3-97a5-c7e5943b5577</outgoing>
     </serviceTask>
-    <sendTask id="Id_2f8aa3f4-ed13-4eaf-a6a5-40d442a08044" name="Notifier le client du motif">
+    <sendTask id="Id_2f8aa3f4-ed13-4eaf-a6a5-40d442a08044" name="Notifier le client du motif" camunda:class="dz.poste.edahabia.delegates.SendTaskDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
@@ -853,7 +853,7 @@
       <incoming>Id_12d6fbaa-976f-495f-87f8-f77feaf36f47</incoming>
       <outgoing>Id_ea490690-08d2-49f3-af6e-2290bb5a997b</outgoing>
     </sendTask>
-    <sendTask id="Id_7afa7cac-cf00-4632-aed4-c46ac2cbe726" name="Envoyer le SMS de confirmation de commande">
+    <sendTask id="Id_7afa7cac-cf00-4632-aed4-c46ac2cbe726" name="Envoyer le SMS de confirmation de commande" camunda:class="dz.poste.edahabia.delegates.SendTaskDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
@@ -1012,7 +1012,7 @@
       <incoming>Id_d3daaca0-de4c-4a75-bc4e-3720126d5a18</incoming>
       <outgoing>Id_337eb7b1-2132-4626-8b0e-5b7a605c679c</outgoing>
     </userTask>
-    <sendTask id="Id_fb492f0d-5638-4920-9a3a-0767c8f68a8f" name="Notifier le refus avec motif">
+    <sendTask id="Id_fb492f0d-5638-4920-9a3a-0767c8f68a8f" name="Notifier le refus avec motif" camunda:class="dz.poste.edahabia.delegates.SendTaskDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
@@ -1117,7 +1117,7 @@
       <incoming>Id_db1d2fca-d67e-4838-b289-800631eb16bc</incoming>
       <outgoing>Id_6122334e-eadb-40fa-8c29-bde4b2aa573f</outgoing>
     </userTask>
-    <sendTask id="Id_b9eb9232-a9f5-4c6d-928d-08b82c63a628" name="Envoyer le SMS « carte disponible »">
+    <sendTask id="Id_b9eb9232-a9f5-4c6d-928d-08b82c63a628" name="Envoyer le SMS « carte disponible »" camunda:class="dz.poste.edahabia.delegates.SendTaskDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
@@ -1132,7 +1132,7 @@
       <incoming>Id_f872dcd8-3d10-4249-9dd1-2aabb8fb770d</incoming>
       <outgoing>Id_732289ba-19c5-4450-8086-1cff68b4c92c</outgoing>
     </sendTask>
-    <sendTask id="Id_a051ed38-6a25-4fee-a146-d1e2d0c764e7" name="Envoyer le SMS d&#39;expédition à domicile">
+    <sendTask id="Id_a051ed38-6a25-4fee-a146-d1e2d0c764e7" name="Envoyer le SMS d&#39;expédition à domicile" camunda:class="dz.poste.edahabia.delegates.SendTaskDelegate">
       <extensionElements>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>

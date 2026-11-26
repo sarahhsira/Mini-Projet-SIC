@@ -1,0 +1,4 @@
+dz\poste\edahabia\EdahabiaProcessApplication.class
+dz\poste\edahabia\delegates\SendTaskDelegate.class
+dz\poste\edahabia\delegates\EligibiliteDelegate.class
+dz\poste\edahabia\delegates\ServiceTaskDelegate.class

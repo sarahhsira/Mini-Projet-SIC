@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algérie Poste - Demande de Carte EDAHABIA</title>
+
+    <style>
+        :root {
+            --ap-blue: #005AAA;
+            --ap-yellow: #FFCE00;
+            --ap-dark: #003366;
+            --ap-light-grey: #f4f7f6;
+            --ap-white: #ffffff;
+            --ap-text: #333333;
+            --ap-border: #dce4e8;
+            --ap-error: #dc3545;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--ap-light-grey);
+            color: var(--ap-text);
+            line-height: 1.5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .form-container {
+            background: var(--ap-white);
+            width: 95%;
+            max-width: 1100px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border-top: 6px solid var(--ap-blue);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, var(--ap-blue), var(--ap-dark));
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            color: var(--ap-white);
+            position: relative;
+        }
+
+        .form-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--ap-yellow);
+        }
+
+        .header-logo {
+            height: 55px;
+            background-color: var(--ap-white);
+            padding: 5px 10px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .form-header h2 {
+            font-size: 1.5em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .form-column {
+            flex: 1.2;
+            padding: 30px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-column h3 {
+            color: var(--ap-dark);
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            border-bottom: 2px solid var(--ap-yellow);
+            padding-bottom: 5px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--ap-dark);
+        }
+
+        .required {
+            color: var(--ap-error);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"] {
+            padding: 10px 12px;
+            border: 1px solid #ccd1d5;
+            border-radius: 6px;
+            font-size: 0.95em;
+            background-color: #fcfcfc;
+            width: 100%;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--ap-blue);
+            box-shadow: 0 0 0 3px rgba(0, 90, 170, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .radio-option {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border: 1px solid #ccd1d5;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #fcfcfc;
+        }
+
+        .radio-option input {
+            margin-right: 10px;
+            accent-color: var(--ap-blue);
+            transform: scale(1.2);
+        }
+
+        .btn-primary {
+            background-color: var(--ap-yellow);
+            color: var(--ap-dark);
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-primary:hover {
+            background-color: #e6b800;
+        }
+
+        .btn-primary:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        .message-box {
+            display: none;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9em;
+            overflow-wrap: anywhere;
+        }
+
+        .message-box.success {
+            display: block;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message-box.error {
+            display: block;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .visual-column {
+            flex: 1;
+            background: #f8fafb;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-left: 1px solid var(--ap-border);
+        }
+
+        .card-image {
+            width: 100%;
+            max-width: 320px;
+            max-height: 40vh;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background-color: var(--ap-white);
+        }
+
+        .visual-text {
+            text-align: center;
+            color: #555;
+        }
+
+        .visual-text h3 {
+            color: var(--ap-blue);
+            margin-bottom: 5px;
+            font-size: 1.2em;
+        }
+
+        .visual-text p {
+            font-size: 0.85em;
+            max-width: 280px;
+        }
+
+        @media (max-width: 850px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .visual-column {
+                border-left: none;
+                border-top: 1px solid var(--ap-border);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+
+            .radio-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <div class="form-header">
+        <img
+            src="https://upload.wikimedia.org/wikipedia/commons/7/72/AlgeriePoste.svg"
+            alt="Logo Algérie Poste"
+            class="header-logo">
+
+        <h2>Demande de carte EDAHABIA</h2>
+    </div>
+
+    <div class="main-content">
+
+        <div class="form-column">
+
+            <div id="messageBox" class="message-box" role="status"></div>
+
+            <h3>Informations du demandeur</h3>
+
+            <form id="demandeForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="nom">
+                            Nom <span class="required">*</span>
+                        </label>
+                        <input type="text" id="nom" name="nom" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prenom">
+                            Prénom <span class="required">*</span>
+                        </label>
+                        <input type="text" id="prenom" name="prenom" required>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="numeroCCP">
+                        Numéro CCP <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="numeroCCP"
+                        name="numeroCCP"
+                        required
+                        placeholder="Ex : 001234567 89">
+                </div>
+
+                <div class="form-group">
+                    <label for="telephone">
+                        Numéro de téléphone <span class="required">*</span>
+                    </label>
+                    <input
+                        type="tel"
+                        id="telephone"
+                        name="telephone"
+                        required
+                        placeholder="Ex : 0550 12 34 56">
+                </div>
+
+                <div class="form-group full-width">
+                    <label>
+                        Mode de réception <span class="required">*</span>
+                    </label>
+
+                    <div class="radio-group">
+
+                        <label class="radio-option">
+                            <input
+                                type="radio"
+                                name="modeReception"
+                                value="domicile"
+                                required
+                                checked>
+                            <span>Livraison à domicile</span>
+                        </label>
+
+                        <label class="radio-option">
+                            <input
+                                type="radio"
+                                name="modeReception"
+                                value="bureau"
+                                required>
+                            <span>Retrait au bureau de poste</span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    class="btn-primary">
+                    Envoyer ma demande
+                </button>
+
+            </form>
+        </div>
+
+        <div class="visual-column">
+
+            <img
+                src="https://lapatrienews.dz/wp-content/uploads/2026/09/algerie-poste-edhahabia1.jpeg"
+                alt="Carte EDAHABIA Algérie Poste"
+                class="card-image"
+                referrerpolicy="no-referrer"
+                onerror="this.onerror=null; this.src='https://www.echoroukonline.com/wp-content/uploads/2021/03/poste.png';">
+
+            <div class="visual-text">
+                <h3>La carte EDAHABIA</h3>
+                <p>
+                    La carte de paiement et de retrait d'Algérie Poste.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const form = document.getElementById('demandeForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageBox = document.getElementById('messageBox');
+
+    // Adresse de l'API REST Camunda 7
+    const CAMUNDA_REST_URL = 'http://localhost:8080/engine-rest';
+
+    // Nom exact du message défini dans le BPMN
+    const MESSAGE_NAME = 'Commande de carte';
+
+    function afficherMessage(type, message) {
+        messageBox.className = 'message-box ' + type;
+        messageBox.textContent = message;
+    }
+
+    form.addEventListener('submit', async function (event) {
+
+        event.preventDefault();
+
+        messageBox.className = 'message-box';
+        messageBox.textContent = '';
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Envoi en cours...';
+
+        try {
+
+            // Récupération des données du formulaire
+            const formData = new FormData(form);
+            const variables = {};
+
+            for (const [key, value] of formData.entries()) {
+
+                let valeur = String(value).trim();
+
+                // Suppression des espaces dans le CCP et le téléphone
+                if (key === 'numeroCCP' || key === 'telephone') {
+                    valeur = valeur.replace(/\s/g, '');
+                }
+
+                if (valeur !== '') {
+                    variables[key] = {
+                        value: valeur,
+                        type: 'String'
+                    };
+                }
+            }
+
+            // Appel de l'événement Message "Commande de carte"
+            const apiUrl = `${CAMUNDA_REST_URL}/message`;
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    messageName: MESSAGE_NAME,
+                    processVariables: variables,
+                    resultEnabled: true
+                })
+            });
+
+            // Lecture de la réponse
+            const responseText = await response.text();
+
+            if (!response.ok) {
+                let errorMessage = responseText;
+
+                try {
+                    const errorData = JSON.parse(responseText);
+                    errorMessage = errorData.message || responseText;
+                } catch (e) {
+                    // La réponse n'est pas au format JSON
+                }
+
+                throw new Error(
+                    errorMessage || `Erreur HTTP : ${response.status}`
+                );
+            }
+
+            // Camunda peut retourner une liste de résultats
+            let result = [];
+
+            if (responseText.trim() !== '') {
+                result = JSON.parse(responseText);
+            }
+
+            // Récupération de l'identifiant de l'instance
+            let dossierId = 'non communiqué';
+
+            if (Array.isArray(result) && result.length > 0) {
+                if (result[0].processInstance) {
+                    dossierId = result[0].processInstance.id;
+                }
+            }
+
+            afficherMessage(
+                'success',
+                'Votre demande de carte a été envoyée. Identifiant du dossier : ' + dossierId
+            );
+
+            form.reset();
+
+        } catch (error) {
+
+            console.error('Erreur Camunda :', error);
+
+            afficherMessage(
+                'error',
+                'Impossible d’envoyer la demande : ' + error.message
+            );
+
+        } finally {
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Envoyer ma demande';
+
+        }
+    });
+});
+</script>
+
+</body>
+</html>
