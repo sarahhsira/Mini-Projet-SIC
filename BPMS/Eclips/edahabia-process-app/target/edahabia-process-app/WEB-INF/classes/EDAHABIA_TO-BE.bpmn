@@ -984,6 +984,10 @@
     </dataStoreReference>
     <userTask id="Id_18415ce1-bc4d-4a82-ae4d-d0df1fa4d032" name="Vérifier les informations de la commande">
       <extensionElements>
+        <camunda:formData>
+          <camunda:formField id="informationsValides" label="Informations valides ?" type="boolean" defaultValue="true" />
+          <camunda:formField id="motifRefus" label="Motif du refus (si non valides)" type="string" />
+        </camunda:formData>
         <HEFLOExtensions xmlns="http://www.heflo.com/bpmn20">
           <HEFLOProperties>
             <HEFLOProperty name="oid" value="13655181" />
