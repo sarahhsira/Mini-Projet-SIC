@@ -1,0 +1,41 @@
+TEST A (valide, retrait au bureau)
+Nom : Benali
+Prénom : Amina
+CCP : 00123456789
+Téléphone : 0550123456
+Mode : Retrait au bureau de poste
+
+TEST B (valide, livraison à domicile)
+Nom : Messaoudi
+Prénom : Karim
+CCP : 00234567890
+Téléphone : 0661234567
+Mode : Livraison à domicile
+
+TEST C (informations invalides)
+Nom : Cherif
+Prénom : Lina
+CCP : 00345678901
+Téléphone : 0770123456
+Mode : Retrait au bureau de poste
+Dans Tasklist : décocher "Informations valides ?"
+Motif du refus : Pièce d'identité illisible
+
+TEST D (client non éligible : a déjà une carte)
+Nom : Haddad
+Prénom : Sofia
+CCP : 00987654321
+Téléphone : 0550123456
+Mode : Retrait au bureau de poste
+
+TEST E (format CCP invalide)
+Nom : Test
+Prénom : Test
+CCP : 123
+Téléphone : 0550123456
+
+TEST F (format téléphone invalide)
+Nom : Test
+Prénom : Test
+CCP : 00123456789
+Téléphone : 0123
